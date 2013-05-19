@@ -30,15 +30,158 @@
       <section>
         <h1>ngAdvancedCache</h1>
 
-<p>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</p>
+<h5>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</h5>
 
-<h2>Documentation</h2>
+<h2>Table of Contents</h2>
 
-<p><a href="http://jmdobry.github.io/ngAdvancedCache/docs/">JsDocs</a></p>
+<ul>
+<li><a href="#features">Features</a></li>
+<li><a href="#download">Download</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#license">License</a></li>
+</ul><h2>Features</h2>
+
+<h5>Capacity</h5>
+
+<p>Set maximum capacity on a cache, turning it into an LRU cache.</p>
+
+<h5>MaxAge</h5>
+
+<p>Set a default maximum lifetime on all items in a cache. This uses a lazy check. When an item is requested it is checked for expiration. If the item has expired it is removed from the cache and the request results in a miss.</p>
+
+<h2>Download</h2>
+
+<table>
+<tr>
+<th>Type</th>
+<th>File</th>
+<th>Size</th>
+</tr>
+<tr>
+<td>Production</td>
+<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.4.0.min.js">ngAdvancedCache-0.4.0.min.js</a></td>
+<td>1.3 KB</td>
+</tr>
+<tr>
+<td>Development</td>
+<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.4.0.js">ngAdvancedCache-0.4.0.js</a></td>
+<td>15.4 KB</td>
+</tr>
+</table><h2>Usage</h2>
+
+<ul>
+<li><a href="#create-a-cache">Create a cache</a></li>
+<li><a href="#retrieve-items">Retrieve items</a></li>
+<li><a href="#add-items">Add items</a></li>
+<li><a href="#remove-items">Remove items</a></li>
+<li><a href="#clear-all-items">Clear all items</a></li>
+<li><a href="#get-info-about-a-cache">Get info about a cache</a></li>
+<li><a href="http://jmdobry.github.io/ngAdvancedCache/docs/">API Documentation</a></li>
+</ul><h5>Create a cache</h5>
+
+<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'ngAdvancedCache'</span><span class="p">]);</span>
+
+<span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$advancedCacheFactory'</span><span class="p">,</span>
+    <span class="kd">function</span> <span class="p">(</span><span class="nx">$advancedCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="c1">// create a cache with default settings</span>
+        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
+
+        <span class="c1">// create an LRU cache with a capacity of 10</span>
+        <span class="kd">var</span> <span class="nx">myLRUCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myLRUCache'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span>
+        <span class="p">});</span>
+
+        <span class="c1">// create a cache whose items have a default maximum lifetime of 10 minutes</span>
+        <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">]);</span>
+</pre></div>
+
+<h5>Retrieve items</h5>
+
+<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myOtherService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$advancedCacheFactory'</span><span class="p">,</span>
+    <span class="kd">function</span> <span class="p">(</span><span class="nx">$advancedCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">]);</span>
+</pre></div>
+
+<h5>Add items</h5>
+
+<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'John Doe'</span> <span class="p">});</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// { name: 'John Doe' });</span>
+</pre></div>
+
+<p>Give a specific item a maximum age</p>
+
+<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'John Doe'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">10000</span> <span class="p">});</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// { name: 'John Doe' });</span>
+
+<span class="c1">// wait at least ten seconds</span>
+<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
+
+<span class="p">},</span> <span class="mi">15000</span><span class="p">);</span> <span class="c1">// 15 seconds</span>
+</pre></div>
+
+<h5>Remove items</h5>
+
+<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'John Doe'</span> <span class="p">});</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
+</pre></div>
+
+<h5>Clear all items</h5>
+
+<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'John Doe'</span> <span class="p">});</span>
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someOtherItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'Sally Jean'</span> <span class="p">});</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">removeAll</span><span class="p">();</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someOtherItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
+</pre></div>
+
+<h5>Get info about a cache</h5>
+
+<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { id: 'myCache', size: 13 }</span>
+</pre></div>
+
+<h5><a href="http://jmdobry.github.io/ngAdvancedCache/docs/">API Documentation</a></h5>
 
 <h2>License</h2>
 
-<p><a href="https://github.com/jmdobry/ngAdvancedCache/blob/master/LICENSE">MIT</a></p>
+<p><a href="https://github.com/jmdobry/ngAdvancedCache/blob/master/LICENSE">MIT License</a></p>
+
+<p>Copyright (C) 2013 Jason Dobry</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+<p><a href="#features">features</a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/jmdobry">jmdobry</a></p>
