@@ -4,31 +4,41 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>ngAdvancedCache by jmdobry</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/jmdobry/ngAdvancedCache">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/jmdobry/ngAdvancedCache/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/jmdobry/ngAdvancedCache/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1>ngAdvancedCache</h1>
-        <p>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</p>
 
-        <p class="view"><a href="https://github.com/jmdobry/ngAdvancedCache">View the Project on GitHub <small>jmdobry/ngAdvancedCache</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/jmdobry/ngAdvancedCache/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/jmdobry/ngAdvancedCache/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/jmdobry/ngAdvancedCache">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
       <section>
-        <h1>ngAdvancedCache</h1>
+        <div id="title">
+          <h1>ngAdvancedCache</h1>
+          <p>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/jmdobry">jmdobry</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>ngAdvancedCache (0.6.0 - Alpha)</h1>
 
 <h5>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</h5>
 
@@ -38,8 +48,9 @@
 
 <ul>
 <li><a href="#features">Features</a></li>
-<li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#status">Status</a></li>
 <li><a href="#download">Download</a></li>
+<li><a href="#roadmap">Roadmap</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#license">License</a></li>
@@ -51,35 +62,65 @@
 
 <h5>MaxAge</h5>
 
-<p>Set a default maximum lifetime on all items in a cache. This uses a lazy check. When an item is requested it is checked for expiration. If the item has expired it is removed from the cache and the request results in a miss.</p>
+<p>Set a default maximum lifetime on all items added to the cache. They will be removed when they expire. Can be configured on a per-item basis for greater specificity.</p>
 
-<h5>CacheExpire (upcoming)</h5>
+<h5>CacheFlushInterval</h5>
 
 <p>Set the cache to periodically clear itself.</p>
 
-<h5>DeleteOnExpire (upcoming)</h5>
+<h2>Status</h2>
 
-<p>Configure the cache to proactively remove items right when they expire, instead of lazily removing them. Use in conjunction with MaxAge.</p>
+<table>
+<tr>
+<th>Version</th>
+<th>Branch</th>
+<th>Build status</th>
+<th>Test Coverage</th>
+</tr>
+<tr>
+<td>0.6.0</td>
+<td><a href="https://github.com/jmdobry/ngAdvancedCache">master</a></td>
+<td><a href="https://travis-ci.org/jmdobry/ngAdvancedCache"><img src="https://travis-ci.org/jmdobry/ngAdvancedCache.png?branch=master" alt="Build Status"></a></td>
+<td><a href="http://jmdobry.github.io/ngAdvancedCache/coverage/">Test Coverage</a></td>
+</tr>
+<tr>
+<td>0.7.0</td>
+<td><a href="https://github.com/jmdobry/ngAdvancedCache/tree/develop">develop</a></td>
+<td><a href="https://travis-ci.org/jmdobry/ngAdvancedCache"><img src="https://travis-ci.org/jmdobry/ngAdvancedCache.png?branch=develop" alt="Build Status"></a></td>
+<td></td>
+</tr>
+</table><h2>Download</h2>
 
-<h2>Roadmap</h2>
+<table>
+<tr>
+<th>Type</th>
+<th>File</th>
+<th>Size</th>
+</tr>
+<tr>
+<td>Production</td>
+<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.5.0.min.js">ngAdvancedCache-0.6.0.min.js</a></td>
+<td>2.21 KB</td>
+</tr>
+<tr>
+<td>Development</td>
+<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.5.0.js">ngAdvancedCache-0.6.0.js</a></td>
+<td>17.1 KB</td>
+</tr>
+</table><h2>Roadmap</h2>
 
-<h5>0.5.0</h5>
+<h5>0.6.0 Alpha (<a href="https://github.com/jmdobry/ngAdvancedCache">master</a>)</h5>
 
 <ul>
-<li>Complete set of unit tests</li>
-</ul><h5>0.6.0 Alpha</h5>
-
-<ul>
-<li>Add ability for a cache to proactively remove expired items.</li>
-<li>Add ability for a cache to periodically clear itself.</li>
+<li>Unit tests for <code>AdvancedCache</code> class.</li>
 <li>Submit project to Angular.js user groups for feedback.</li>
-</ul><h5>0.7.0 Compatibility and Performance</h5>
+</ul><h5>0.7.0 Compatibility and Performance (<a href="https://github.com/jmdobry/ngAdvancedCache/tree/develop">develop</a>)</h5>
 
 <ul>
-<li>Ensure ngAdvancedCache's compatibility matches that of Angular.js in supporting browsers.</li>
+<li>Ensure ngAdvancedCache's compatibility matches that of Angular.js's browser support.</li>
 <li>Ensure ngAdvancedCache supports a reasonable number of older versions of Angular.js.</li>
 <li>Ensure ngAdvancedCache does not result in memory leaks.</li>
-<li>Find a good default balance between memory use and cpu use and allow the user to configure it.</li>
+<li>Find a good default balance between memory use and cpu use (timeouts and intervals) and allow the user to configure it.</li>
 </ul><h5>0.8.0 Beta</h5>
 
 <ul>
@@ -94,25 +135,7 @@
 
 <ul>
 <li>Yay!</li>
-</ul><h2>Download</h2>
-
-<table>
-<tr>
-<th>Type</th>
-<th>File</th>
-<th>Size</th>
-</tr>
-<tr>
-<td>Production</td>
-<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.4.0.min.js">ngAdvancedCache-0.4.0.min.js</a></td>
-<td>1.3 KB</td>
-</tr>
-<tr>
-<td>Development</td>
-<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.4.0.js">ngAdvancedCache-0.4.0.js</a></td>
-<td>13.5 KB</td>
-</tr>
-</table><h2>Usage</h2>
+</ul><h2>Usage</h2>
 
 <ul>
 <li><a href="#load-ngadvancedCache">Load ngAdvancedCache</a></li>
@@ -147,9 +170,21 @@
             <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span>
         <span class="p">});</span>
 
-        <span class="c1">// create a cache whose items have a default maximum lifetime of 10 minutes</span>
+        <span class="c1">// create a cache whose items have a maximum lifetime of 10 minutes</span>
         <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
             <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span>
+        <span class="p">});</span>
+
+        <span class="c1">// create a cache that will clear itself every 10 minutes</span>
+        <span class="kd">var</span> <span class="nx">myIntervalCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myIntervalCache'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
+        <span class="p">});</span>
+
+        <span class="c1">// create an cache with all options</span>
+        <span class="kd">var</span> <span class="nx">myAwesomeCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myAwesomeCache'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
+            <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
         <span class="p">});</span>
     <span class="p">}</span>
 <span class="p">]);</span>
@@ -188,7 +223,8 @@
 
 <p>Give a specific item a maximum age</p>
 
-<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'John Doe'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">10000</span> <span class="p">});</span>
+<div class="highlight"><pre><span class="c1">// The maxAge given to this item will override the maxAge of the cache, if any was set</span>
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'John Doe'</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">10000</span> <span class="p">});</span>
 
 <span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// { name: 'John Doe' });</span>
 
@@ -291,12 +327,9 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/jmdobry">jmdobry</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
