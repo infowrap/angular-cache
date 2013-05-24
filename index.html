@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>ngAdvancedCache by jmdobry</title>
+    <title>angular-cache by jmdobry</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -20,9 +20,9 @@
   <body>
       <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/jmdobry/ngAdvancedCache">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/jmdobry/ngAdvancedCache/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/jmdobry/ngAdvancedCache/tarball/master">TAR</a></li>
+          <li class="fork"><a href="https://github.com/jmdobry/angular-cache">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/jmdobry/angular-cache/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/jmdobry/angular-cache/tarball/master">TAR</a></li>
           <li class="title">DOWNLOADS</li>
         </nav>
       </div><!-- end header -->
@@ -31,16 +31,16 @@
 
       <section>
         <div id="title">
-          <h1>ngAdvancedCache</h1>
-          <p>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</p>
+          <h1>angular-cache</h1>
+          <p>angular-cache improves upon the capabilities of the $cacheFactory provided by AngularJS.</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/jmdobry">jmdobry</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h1>ngAdvancedCache (0.6.0 - Alpha)</h1>
+        <h1>angular-cache (0.6.1 - Alpha)</h1>
 
-<h5>ngAdvancedCache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS.</h5>
+<h5>angular-cache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS. With angular-cache your caches can periodically clear themselves and flush items that have expired.</h5>
 
 <h5>The goal of the project is to solve a general problem, not satisfy a specific scenario.</h5>
 
@@ -54,19 +54,23 @@
 <li><a href="#usage">Usage</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#license">License</a></li>
-</ul><h2>Features</h2>
+</ul><p><a name="features"></a></p>
 
-<h5>Capacity</h5>
+<h2>Features</h2>
+
+<h5>Capacity (comes with $cacheFactory)</h5>
 
 <p>Set maximum capacity on a cache, turning it into an LRU cache.</p>
 
-<h5>MaxAge</h5>
+<h5>MaxAge (added by angular-cache)</h5>
 
 <p>Set a default maximum lifetime on all items added to the cache. They will be removed when they expire. Can be configured on a per-item basis for greater specificity.</p>
 
-<h5>CacheFlushInterval</h5>
+<h5>CacheFlushInterval (added by angular-cache)</h5>
 
 <p>Set the cache to periodically clear itself.</p>
+
+<p><a name="status"></a></p>
 
 <h2>Status</h2>
 
@@ -78,18 +82,20 @@
 <th>Test Coverage</th>
 </tr>
 <tr>
-<td>0.6.0</td>
-<td><a href="https://github.com/jmdobry/ngAdvancedCache">master</a></td>
-<td><a href="https://travis-ci.org/jmdobry/ngAdvancedCache"><img src="https://travis-ci.org/jmdobry/ngAdvancedCache.png?branch=master" alt="Build Status"></a></td>
-<td><a href="http://jmdobry.github.io/ngAdvancedCache/coverage/">Test Coverage</a></td>
+<td>0.6.1</td>
+<td><a href="https://github.com/jmdobry/angular-cache">master</a></td>
+<td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=master" alt="Build Status"></a></td>
+<td><a href="http://jmdobry.github.io/angular-cache/coverage/">Test Coverage</a></td>
 </tr>
 <tr>
-<td>0.7.0</td>
-<td><a href="https://github.com/jmdobry/ngAdvancedCache/tree/develop">develop</a></td>
-<td><a href="https://travis-ci.org/jmdobry/ngAdvancedCache"><img src="https://travis-ci.org/jmdobry/ngAdvancedCache.png?branch=develop" alt="Build Status"></a></td>
+<td>0.7.1</td>
+<td><a href="https://github.com/jmdobry/angular-cache/tree/develop">develop</a></td>
+<td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=develop" alt="Build Status"></a></td>
 <td></td>
 </tr>
-</table><h2>Download</h2>
+</table><p><a name="download"></a></p>
+
+<h2>Download</h2>
 
 <table>
 <tr>
@@ -99,34 +105,36 @@
 </tr>
 <tr>
 <td>Production</td>
-<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.6.0.min.js">ngAdvancedCache-0.6.0.min.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.6.1.min.js">angular-cache-0.6.0.min.js</a></td>
 <td>2.21 KB</td>
 </tr>
 <tr>
 <td>Development</td>
-<td><a href="https://raw.github.com/jmdobry/ngAdvancedCache/master/dist/ngAdvancedCache-0.6.0.js">ngAdvancedCache-0.6.0.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.6.1.js">angular-cache-0.6.0.js</a></td>
 <td>17.1 KB</td>
 </tr>
-</table><h2>Roadmap</h2>
+</table><p><a name="roadmap"></a></p>
 
-<h5>0.6.0 Alpha (<a href="https://github.com/jmdobry/ngAdvancedCache">master</a>)</h5>
+<h2>Roadmap</h2>
+
+<h5>0.6.x Alpha (<a href="https://github.com/jmdobry/angular-cache">master</a>)</h5>
 
 <ul>
-<li>Unit tests for <code>AdvancedCache</code> class.</li>
+<li>Unit tests for <code>Cache</code> class.</li>
 <li>Submit project to Angular.js user groups for feedback.</li>
-</ul><h5>0.7.0 Compatibility and Performance (<a href="https://github.com/jmdobry/ngAdvancedCache/tree/develop">develop</a>)</h5>
+</ul><h5>0.7.x Compatibility and Performance (<a href="https://github.com/jmdobry/angular-cache/tree/develop">develop</a>)</h5>
 
 <ul>
-<li>Ensure ngAdvancedCache's compatibility matches that of Angular.js's browser support.</li>
-<li>Ensure ngAdvancedCache supports a reasonable number of older versions of Angular.js.</li>
-<li>Ensure ngAdvancedCache does not result in memory leaks.</li>
+<li>Ensure angular-cache's compatibility matches that of Angular.js's browser support.</li>
+<li>Ensure angular-cache supports a reasonable number of older versions of Angular.js.</li>
+<li>Ensure angular-cache does not result in memory leaks.</li>
 <li>Find a good default balance between memory use and cpu use (timeouts and intervals) and allow the user to configure it.</li>
-</ul><h5>0.8.0 Beta</h5>
+</ul><h5>0.8.x Beta</h5>
 
 <ul>
 <li>Bug fixes</li>
 <li>Submit project to Angular.js user groups for feedback again.</li>
-</ul><h5>0.9.0 Release Candidate</h5>
+</ul><h5>0.9.x Release Candidate</h5>
 
 <ul>
 <li>Bug fixes</li>
@@ -135,10 +143,12 @@
 
 <ul>
 <li>Yay!</li>
-</ul><h2>Usage</h2>
+</ul><p><a name="usage"></a></p>
+
+<h2>Usage</h2>
 
 <ul>
-<li><a href="#load-ngadvancedCache">Load ngAdvancedCache</a></li>
+<li><a href="#load-angular-cache">Load angular-cache</a></li>
 <li><a href="#create-a-cache">Create a cache</a></li>
 <li><a href="#retrieve-a-cache">Retrieve a cache</a></li>
 <li><a href="#retrieve-items">Retrieve items</a></li>
@@ -147,41 +157,45 @@
 <li><a href="#clear-all-items">Clear all items</a></li>
 <li><a href="#destroy-a-cache">Destroy a cache</a></li>
 <li><a href="#get-info-about-a-cache">Get info about a cache</a></li>
-<li><a href="http://jmdobry.github.io/ngAdvancedCache/docs/">API Documentation</a></li>
-</ul><h4>Load ngAdvancedCache</h4>
+<li><a href="http://jmdobry.github.io/angular-cache/docs/">API Documentation</a></li>
+</ul><p><a name="load-angular-cache"></a></p>
 
-<p>Make sure ngAdvancedCache is included on your page after Angular.</p>
+<h4>Load angular-cache</h4>
 
-<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'ngAdvancedCache'</span><span class="p">]);</span>
+<p>Make sure angular-cache is included on your page after Angular.</p>
+
+<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'angular-cache'</span><span class="p">]);</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/module-ngAdvancedCache.html">ngAdvancedCache</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/module-angular-cache.html">angular-cache</a></p>
+
+<p><a name="create-a-cache"></a></p>
 
 <h4>Create a cache</h4>
 
-<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$advancedCacheFactory'</span><span class="p">,</span>
-    <span class="kd">function</span> <span class="p">(</span><span class="nx">$advancedCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$angularCacheFactory'</span><span class="p">,</span>
+    <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
 
         <span class="c1">// create a cache with default settings</span>
-        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
 
         <span class="c1">// create an LRU cache with a capacity of 10</span>
-        <span class="kd">var</span> <span class="nx">myLRUCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myLRUCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">myLRUCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myLRUCache'</span><span class="p">,</span> <span class="p">{</span>
             <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span>
         <span class="p">});</span>
 
         <span class="c1">// create a cache whose items have a maximum lifetime of 10 minutes</span>
-        <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
             <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span>
         <span class="p">});</span>
 
         <span class="c1">// create a cache that will clear itself every 10 minutes</span>
-        <span class="kd">var</span> <span class="nx">myIntervalCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myIntervalCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">myIntervalCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myIntervalCache'</span><span class="p">,</span> <span class="p">{</span>
             <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
         <span class="p">});</span>
 
         <span class="c1">// create an cache with all options</span>
-        <span class="kd">var</span> <span class="nx">myAwesomeCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">(</span><span class="s1">'myAwesomeCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">myAwesomeCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myAwesomeCache'</span><span class="p">,</span> <span class="p">{</span>
             <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
             <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
             <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
@@ -190,19 +204,23 @@
 <span class="p">]);</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/advancedCacheFactory.html">$advancedCacheFactory</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/angularCacheFactory.html">$angularCacheFactory</a></p>
+
+<p><a name="retrieve-a-cache"></a></p>
 
 <h4>Retrieve a cache</h4>
 
-<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myOtherService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$advancedCacheFactory'</span><span class="p">,</span>
-    <span class="kd">function</span> <span class="p">(</span><span class="nx">$advancedCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myOtherService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$angularCacheFactory'</span><span class="p">,</span>
+    <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$advancedCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">]);</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/advancedCacheFactory.html#get">$advancedCacheFactory#get</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/angularCacheFactory.html#get">$angularCacheFactory#get</a></p>
+
+<p><a name="retrieve-items"></a></p>
 
 <h4>Retrieve items</h4>
 
@@ -212,7 +230,9 @@
 <span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someMissingItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/AdvancedCache.html#get">AdvancedCache#get</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#get">Cache#get</a></p>
+
+<p><a name="add-items"></a></p>
 
 <h4>Add items</h4>
 
@@ -236,7 +256,9 @@
 <span class="p">},</span> <span class="mi">15000</span><span class="p">);</span> <span class="c1">// 15 seconds</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/AdvancedCache.html#put">AdvancedCache#put</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#put">Cache#put</a></p>
+
+<p><a name="remove-items"></a></p>
 
 <h4>Remove items</h4>
 
@@ -247,7 +269,9 @@
 <span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/AdvancedCache.html#remove">AdvancedCache#remove</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#remove">Cache#remove</a></p>
+
+<p><a name="clear-all-items"></a></p>
 
 <h4>Clear all items</h4>
 
@@ -260,7 +284,9 @@
 <span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someOtherItem'</span><span class="p">);</span> <span class="c1">// undefined</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/AdvancedCache.html#removeAll">AdvancedCache#removeAll</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#removeAll">Cache#removeAll</a></p>
+
+<p><a name="destroy-a-cache"></a></p>
 
 <h4>Destroy a cache</h4>
 
@@ -268,19 +294,23 @@
 
 <span class="nx">myCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someItem'</span><span class="p">);</span> <span class="c1">// Will throw an error - Don't try to use a cache after destroying it!</span>
 
-<span class="nx">$advancedCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span> <span class="c1">// undefined</span>
+<span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span> <span class="c1">// undefined</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/AdvancedCache.html#destory">AdvancedCache#destory</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#destory">Cache#destory</a></p>
+
+<p><a name="get-info-about-a-cache"></a></p>
 
 <h4>Get info about a cache</h4>
 
 <div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { id: 'myCache', size: 13 }</span>
 </pre></div>
 
-<p>See <a href="http://jmdobry.github.io/ngAdvancedCache/docs/AdvancedCache.html#info">AdvancedCache#info</a></p>
+<p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#info">Cache#info</a></p>
 
-<h3><a href="http://jmdobry.github.io/ngAdvancedCache/docs/">API Documentation</a></h3>
+<h3><a href="http://jmdobry.github.io/angular-cache/docs/">API Documentation</a></h3>
+
+<p><a name="contributing"></a></p>
 
 <h2>Contributing</h2>
 
@@ -304,9 +334,11 @@
 </li>
 <li>Make sure your pull request references/closes the proper issues.</li>
 <li>For hotfixes submit request to be merged into master, otherwise into develop.</li>
-</ol><h2>License</h2>
+</ol><p><a name="license"></a></p>
 
-<p><a href="https://github.com/jmdobry/ngAdvancedCache/blob/master/LICENSE">MIT License</a></p>
+<h2>License</h2>
+
+<p><a href="https://github.com/jmdobry/angular-cache/blob/master/LICENSE">MIT License</a></p>
 
 <p>Copyright (C) 2013 Jason Dobry</p>
 
