@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>angular-cache by jmdobry</title>
+    <title>Angular-cache by jmdobry</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -31,7 +31,7 @@
 
       <section>
         <div id="title">
-          <h1>angular-cache</h1>
+          <h1>Angular-cache</h1>
           <p>angular-cache improves upon the capabilities of the $cacheFactory provided by AngularJS.</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/jmdobry">jmdobry</a></span>
@@ -41,16 +41,14 @@
         <h1>
 <a name="angular-cache-072---alpha" class="anchor" href="#angular-cache-072---alpha"><span class="octicon octicon-link"></span></a>angular-cache (0.7.2 - Alpha)</h1>
 
-<h5>
-<a name="angular-cache-is-a-caching-system-that-improves-upon-the-capabilities-of-the-cachefactory-provided-by-angularjs-with-angular-cache-your-caches-can-periodically-clear-themselves-and-flush-items-that-have-expired" class="anchor" href="#angular-cache-is-a-caching-system-that-improves-upon-the-capabilities-of-the-cachefactory-provided-by-angularjs-with-angular-cache-your-caches-can-periodically-clear-themselves-and-flush-items-that-have-expired"><span class="octicon octicon-link"></span></a>angular-cache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS. With angular-cache your caches can periodically clear themselves and flush items that have expired.</h5>
+<p>angular-cache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS. With angular-cache your caches can periodically clear themselves and flush items that have expired.</p>
 
-<h5>
-<a name="the-goal-of-the-project-is-to-solve-a-general-problem-not-satisfy-a-specific-scenario" class="anchor" href="#the-goal-of-the-project-is-to-solve-a-general-problem-not-satisfy-a-specific-scenario"><span class="octicon octicon-link"></span></a>The goal of the project is to solve a general problem, not satisfy a specific scenario.</h5>
+<p>The goal of the project is to solve a general problem, not satisfy a specific scenario.</p>
 
-<h2>
-<a name="table-of-contents" class="anchor" href="#table-of-contents"><span class="octicon octicon-link"></span></a>Table of Contents</h2>
+<h3>
+<a name="table-of-contents" class="anchor" href="#table-of-contents"><span class="octicon octicon-link"></span></a>Table of Contents</h3>
 
-<ul>
+<ol>
 <li><a href="#features">Features</a></li>
 <li><a href="#demo">Demo</a></li>
 <li><a href="#status">Status</a></li>
@@ -59,27 +57,29 @@
 <li><a href="#roadmap">Roadmap</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#license">License</a></li>
-</ul><p><a name="features"></a></p>
+</ol><p><a name="features"></a></p>
 
 <h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
-<h5>
-<a name="capacity-comes-with-cachefactory" class="anchor" href="#capacity-comes-with-cachefactory"><span class="octicon octicon-link"></span></a>Capacity (comes with $cacheFactory)</h5>
+<p>These are in addition to what Angular's $cacheFactory provides.</p>
 
-<p>Set maximum capacity on a cache, turning it into an LRU cache.</p>
+<h4>
+<a name="angularcache" class="anchor" href="#angularcache"><span class="octicon octicon-link"></span></a>AngularCache</h4>
 
-<h5>
-<a name="maxage-added-by-angular-cache" class="anchor" href="#maxage-added-by-angular-cache"><span class="octicon octicon-link"></span></a>MaxAge (added by angular-cache)</h5>
+<ul>
+<li>option: <code>maxAge</code> (<code>AngularCache.put()</code>): Set a default maximum lifetime on the item being added to the cache. It will be removed when it expires.</li>
+</ul><h4>
+<a name="angularcachefactory" class="anchor" href="#angularcachefactory"><span class="octicon octicon-link"></span></a>$angularCacheFactory</h4>
 
-<p>Set a default maximum lifetime on all items added to the cache. They will be removed when they expire. Can be configured on a per-item basis for greater specificity.</p>
-
-<h5>
-<a name="cacheflushinterval-added-by-angular-cache" class="anchor" href="#cacheflushinterval-added-by-angular-cache"><span class="octicon octicon-link"></span></a>CacheFlushInterval (added by angular-cache)</h5>
-
-<p>Set the cache to periodically clear itself.</p>
-
-<p><a name="demo"></a></p>
+<ul>
+<li>option: <code>maxAge</code> (<code>$angularCacheFactory()</code>): Set a default maximum lifetime on all items added to the cache. They will be removed when they expire. Can be configured on a per-item basis for greater specificity.</li>
+<li>option: <code>cacheFlushInterval</code> (<code>$angularCacheFactory()</code>): Set the cache to periodically clear itself.</li>
+<li>
+<code>$angularCacheFactory.keySet()</code>: Return the set of keys associated with all current caches owned by $angularCacheFactory.</li>
+<li>
+<code>$angularCacheFactory.keys()</code>: Return an array of the keys associated with all current caches owned by $angularCacheFactory.</li>
+</ul><p><a name="demo"></a></p>
 
 <h2>
 <a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h2>
@@ -112,7 +112,7 @@
 </tr>
 <tr>
 <td>0.7.2</td>
-<td>all</td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache">all</a></td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache/latest"><img src="https://drone.io/github.com/jmdobry/angular-cache/status.png" alt="Build Status"></a></td>
 <td></td>
 </tr>
@@ -121,19 +121,30 @@
 <h2>
 <a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h2>
 
+<h4>
+<a name="all-downloads-at-droneio" class="anchor" href="#all-downloads-at-droneio"><span class="octicon octicon-link"></span></a><a href="https://drone.io/github.com/jmdobry/angular-cache/files">All Downloads</a> (at drone.io)</h4>
+
+<p>or</p>
+
+<h4>
+<a name="latest-stable-version" class="anchor" href="#latest-stable-version"><span class="octicon octicon-link"></span></a>Latest Stable Version</h4>
+
 <table>
 <tr>
 <th>Type</th>
-<th>File</th>
+<th>From drone.io</th>
+<th>From raw.github.com</th>
 <th>Size</th>
 </tr>
 <tr>
 <td>Production</td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.7.2.min.js">angular-cache-0.7.2.min.js</a></td>
 <td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.7.2.min.js">angular-cache-0.7.2.min.js</a></td>
 <td>2.41 KB</td>
 </tr>
 <tr>
 <td>Development</td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.7.2.js">angular-cache-0.7.2.js</a></td>
 <td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.7.2.js">angular-cache-0.7.2.js</a></td>
 <td>22.1 KB</td>
 </tr>
@@ -327,6 +338,7 @@
 <ul>
 <li>AngularCache.keySet()</li>
 <li>AngularCache.keys()</li>
+<li>AngularCache.setOptions()</li>
 <li>Bug fixes</li>
 <li>Submit project to Angular.js user groups for feedback again.</li>
 </ul><h5>
@@ -396,16 +408,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-41126886-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+    
   </body>
 </html>
