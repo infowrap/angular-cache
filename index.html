@@ -39,7 +39,7 @@
         </div>
 
         <h1>
-<a name="angular-cache-081---beta" class="anchor" href="#angular-cache-081---beta"><span class="octicon octicon-link"></span></a>angular-cache (0.8.1 - Beta)</h1>
+<a name="angular-cache-082" class="anchor" href="#angular-cache-082"><span class="octicon octicon-link"></span></a>angular-cache (0.8.2)</h1>
 
 <p>angular-cache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS. With angular-cache your caches can periodically clear themselves and flush items that have expired.</p>
 
@@ -132,19 +132,19 @@
 <th>Test Coverage</th>
 </tr>
 <tr>
-<td>0.8.1</td>
+<td>0.8.2</td>
 <td><a href="https://github.com/jmdobry/angular-cache">master</a></td>
 <td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=master" alt="Build Status"></a></td>
 <td><a href="http://jmdobry.github.io/angular-cache/coverage/">Test Coverage</a></td>
 </tr>
 <tr>
-<td>0.8.1</td>
+<td>0.8.2</td>
 <td><a href="https://github.com/jmdobry/angular-cache/tree/develop">develop</a></td>
 <td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=develop" alt="Build Status"></a></td>
 <td></td>
 </tr>
 <tr>
-<td>0.8.1</td>
+<td>0.8.2</td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache">all</a></td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache/latest"><img src="https://drone.io/github.com/jmdobry/angular-cache/status.png" alt="Build Status"></a></td>
 <td></td>
@@ -171,14 +171,14 @@
 </tr>
 <tr>
 <td>Production</td>
-<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.8.1.min.js">angular-cache-0.8.1.min.js</a></td>
-<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.8.1.min.js">angular-cache-0.8.1.min.js</a></td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.8.2.min.js">angular-cache-0.8.2.min.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.8.2.min.js">angular-cache-0.8.2.min.js</a></td>
 <td>3.3 KB</td>
 </tr>
 <tr>
 <td>Development</td>
-<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.8.1.js">angular-cache-0.8.1.js</a></td>
-<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.8.1.js">angular-cache-0.8.1.js</a></td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.8.2.js">angular-cache-0.8.2.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.8.2.js">angular-cache-0.8.2.js</a></td>
 <td>28.7 KB</td>
 </tr>
 </table><p><a name="usage"></a></p>
@@ -433,19 +433,51 @@
 </ol><h4>
 <a name="submitting-pull-requests" class="anchor" href="#submitting-pull-requests"><span class="octicon octicon-link"></span></a>Submitting Pull Requests</h4>
 
-<ol>
-<li>Fork</li>
-<li>For hotfixes branch from master, otherwise from develop. Prefix name of branch with issue label. E.g. <code>hotfix-missing-semicolon</code>, <code>feature-my-feature</code>, etc.</li>
-<li>Make sure <code>grunt build</code> passes with zero warnings/errors.</li>
-<li>Make sure your code follows the <a href="https://github.com/rwldrn/idiomatic.js">style guidelines</a>.
+<h5>
+<a name="basic-idea" class="anchor" href="#basic-idea"><span class="octicon octicon-link"></span></a>Basic Idea</h5>
 
 <ul>
-<li>This project uses 4-space indentation and single-quotes.</li>
+<li>Checkout a new branch based on <code>develop</code> and name it to what you intend to do:
+
+<ul>
+<li>Example:
+<code>
+$ git checkout -b BRANCH_NAME
+</code>
+</li>
+<li>Use one branch per fix/feature</li>
+<li>Prefix your branch name with <code>feature-</code> or <code>fix-</code> appropriately.</li>
 </ul>
 </li>
-<li>Make sure your pull request references/closes the proper issues.</li>
-<li>For hotfixes submit request to be merged into master, otherwise into develop.</li>
-</ol><p><a name="license"></a></p>
+<li>Make your changes
+
+<ul>
+<li>Make sure to provide a spec for unit tests</li>
+<li>Run your tests with either <code>karma start</code> or <code>grunt test</code>
+</li>
+<li>Make sure the tests pass</li>
+</ul>
+</li>
+<li>Commit your changes
+
+<ul>
+<li>Please provide a git message which explains what you've done</li>
+<li>Commit to the forked repository</li>
+</ul>
+</li>
+<li>Make a pull request
+
+<ul>
+<li>Make sure you send the PR to the <code>develop</code> branch</li>
+<li>Travis CI is watching you!</li>
+</ul>
+</li>
+</ul><h5>
+<a name="more-details" class="anchor" href="#more-details"><span class="octicon octicon-link"></span></a>More details</h5>
+
+<p>Read the detailed <a href="https://github.com/jmdobry/angular-cache/blob/master/CONTRIBUTING.md">Contributing Guide</a></p>
+
+<p><a name="license"></a></p>
 
 <h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
