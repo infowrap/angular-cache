@@ -39,11 +39,42 @@
         </div>
 
         <h1>
-<a name="angular-cache-082" class="anchor" href="#angular-cache-082"><span class="octicon octicon-link"></span></a>angular-cache (0.8.2)</h1>
+<a name="angular-cache-090" class="anchor" href="#angular-cache-090"><span class="octicon octicon-link"></span></a>angular-cache (0.9.0)</h1>
 
 <p>angular-cache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS. With angular-cache your caches can periodically clear themselves and flush items that have expired.</p>
 
 <p>The goal of the project is to solve a general problem, not satisfy a specific scenario.</p>
+
+<h4>
+<a name="view-the-demo" class="anchor" href="#view-the-demo"><span class="octicon octicon-link"></span></a><a href="http://jmdobry.github.io/angular-cache/demo/">View the Demo</a>
+</h4>
+
+<h5>
+<a name="cachefactory" class="anchor" href="#cachefactory"><span class="octicon octicon-link"></span></a>$cacheFactory</h5>
+
+<div class="highlight"><pre><span class="c1">// Angular's provided $cacheFactory</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$cacheFactory</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// This is all you can do with $cacheFactory</span>
+    <span class="nx">$cacheFactory</span><span class="p">(</span><span class="s1">'myNewCache'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">capacity</span><span class="o">:</span> <span class="mi">1000</span> <span class="p">});</span> <span class="c1">// This cache can hold 1000 items</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="vs" class="anchor" href="#vs"><span class="octicon octicon-link"></span></a>vs</h4>
+
+<h5>
+<a name="angularcachefactory" class="anchor" href="#angularcachefactory"><span class="octicon octicon-link"></span></a>$angularCacheFactory</h5>
+
+<div class="highlight"><pre><span class="c1">// Smarter caching with $angularCacheFactory</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myNewCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">capacity</span><span class="o">:</span> <span class="mi">1000</span><span class="p">,</span>  <span class="c1">// This cache can hold 1000 items,</span>
+        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">90000</span><span class="p">,</span> <span class="c1">// Items added to this cache expire after 15 minutes</span>
+        <span class="nx">aggressiveDelete</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Items will be actively deleted when they expire</span>
+        <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">3600000</span> <span class="c1">// This cache will clear itself every hour</span>
+     <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
 
 <h3>
 <a name="table-of-contents" class="anchor" href="#table-of-contents"><span class="octicon octicon-link"></span></a>Table of Contents</h3>
@@ -53,71 +84,83 @@
 <li><a href="#features">Features</a></li>
 <li><a href="#status">Status</a></li>
 <li><a href="#download">Download</a></li>
+<li><a href="#install">Install</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#changelog">Changelog</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#license">License</a></li>
-</ol><p><a name="demo"></a></p>
-
-<h2>
-<a name="demo" class="anchor" href="#demo"><span class="octicon octicon-link"></span></a>Demo</h2>
-
-<p><a href="http://jmdobry.github.io/angular-cache/demo/">View the Demo</a></p>
-
-<p><a name="features"></a></p>
+</ol><p><a name="features"></a></p>
 
 <h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
-<p>(These are in addition to what Angular's $cacheFactory provides.)</p>
-
 <h5>
-<a name="option-maxage" class="anchor" href="#option-maxage"><span class="octicon octicon-link"></span></a>option: <code>maxAge</code>
+<a name="maxage" class="anchor" href="#maxage"><span class="octicon octicon-link"></span></a><code>maxAge</code>
 </h5>
 
-<p>Set a default maximum lifetime on all items added to the cache. They will be removed when they expire. Can be configured on a per-item basis for greater specificity.</p>
+<p>Set a default maximum lifetime on all items added to the cache. They will be removed aggressively or passively depending on the value of <code>aggressiveDelete</code> (see below). Can be configured on a per-item basis for greater specificity.</p>
 
-<p>e.g. <code>$angularCacheFactory('newCache', { maxAge: 36000 })</code>:</p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">36000</span> <span class="p">});</span>
+</pre></div>
 
 <h5>
-<a name="option-cacheflushinterval" class="anchor" href="#option-cacheflushinterval"><span class="octicon octicon-link"></span></a>option: <code>cacheFlushInterval</code>
+<a name="aggressivedelete" class="anchor" href="#aggressivedelete"><span class="octicon octicon-link"></span></a><code>aggressiveDelete</code>
+</h5>
+
+<p>If true and maxAge is set, then items will be actively deleted right when they expire, otherwise items won't be deleted until they are requested but it is discovered that they have expired and are deleted, resulting in a miss. Can be configured on a per-item basis for greater specificity.</p>
+
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">36000</span><span class="p">,</span>
+    <span class="nx">aggressiveDelete</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+
+<h5>
+<a name="cacheflushinterval" class="anchor" href="#cacheflushinterval"><span class="octicon octicon-link"></span></a><code>cacheFlushInterval</code>
 </h5>
 
 <p>Set the cache to periodically clear itself.</p>
 
-<p>e.g. <code>$angularCacheFactory('newCache', { cacheFlushInterval: 57908 })</code></p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">57908</span> <span class="p">});</span>
+</pre></div>
 
 <h5>
-<a name="method-keyset" class="anchor" href="#method-keyset"><span class="octicon octicon-link"></span></a>method: <code>keySet()</code>
+<a name="keyset" class="anchor" href="#keyset"><span class="octicon octicon-link"></span></a><code>keySet()</code>
 </h5>
 
 <p>Return the set of keys associated with all current caches owned by $angularCacheFactory.</p>
 
-<p>e.g. <code>$angularCacheFactory.keySet()</code></p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">keySet</span><span class="p">();</span>
+</pre></div>
 
 <p>Return the set of keys associated with all current items in <code>someCache</code>.</p>
 
-<p>e.g. <code>$angularCacheFactory.get('someCache').keySet()</code>:</p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someCache'</span><span class="p">).</span><span class="nx">keySet</span><span class="p">();</span>
+</pre></div>
 
 <h5>
-<a name="method-keys" class="anchor" href="#method-keys"><span class="octicon octicon-link"></span></a>method: <code>keys()</code>
+<a name="keys" class="anchor" href="#keys"><span class="octicon octicon-link"></span></a><code>keys()</code>
 </h5>
 
 <p>Return an array of the keys associated with all current caches owned by $angularCacheFactory.</p>
 
-<p>e.g. <code>$angularCacheFactory.keys()</code></p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">keys</span><span class="p">();</span>
+</pre></div>
 
 <p>Return an array of the keys associated with all current items in <code>someCache</code>.</p>
 
-<p>e.g. <code>$angularCacheFactory.get('someCache').keys()</code></p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someCache'</span><span class="p">).</span><span class="nx">keys</span><span class="p">();</span>
+</pre></div>
 
 <h5>
-<a name="method-setoptions" class="anchor" href="#method-setoptions"><span class="octicon octicon-link"></span></a>method: <code>setOptions()</code>
+<a name="setoptions" class="anchor" href="#setoptions"><span class="octicon octicon-link"></span></a><code>setOptions()</code>
 </h5>
 
 <p>Dynamically configure a cache.</p>
 
-<p>e.g. <code>$angularCacheFactory.get('someCache').setOptions({ capacity: 4500 })</code></p>
+<div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someCache'</span><span class="p">).</span><span class="nx">setOptions</span><span class="p">({</span> <span class="nx">capacity</span><span class="o">:</span> <span class="mi">4500</span> <span class="p">});</span>
+</pre></div>
 
 <p><a name="status"></a></p>
 
@@ -133,19 +176,19 @@
 </tr></thead>
 <tbody>
 <tr>
-<td>0.8.2</td>
+<td>0.9.0-SNAPSHOT</td>
 <td><a href="https://github.com/jmdobry/angular-cache">master</a></td>
 <td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=master" alt="Build Status"></a></td>
 <td><a href="http://jmdobry.github.io/angular-cache/coverage/">Test Coverage</a></td>
 </tr>
 <tr>
-<td>0.8.2</td>
+<td>0.9.0-SNAPSHOT</td>
 <td><a href="https://github.com/jmdobry/angular-cache/tree/develop">develop</a></td>
 <td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=develop" alt="Build Status"></a></td>
 <td></td>
 </tr>
 <tr>
-<td>0.8.2</td>
+<td>0.9.0-SNAPSHOT</td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache">all</a></td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache/latest"><img src="https://drone.io/github.com/jmdobry/angular-cache/status.png" alt="Build Status"></a></td>
 <td></td>
@@ -155,11 +198,6 @@
 
 <h2>
 <a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h2>
-
-<h4>
-<a name="all-downloads-at-wwwdroneio" class="anchor" href="#all-downloads-at-wwwdroneio"><span class="octicon octicon-link"></span></a><a href="https://drone.io/github.com/jmdobry/angular-cache/files">All Downloads</a> (at <a href="http://www.drone.io">www.drone.io</a>)</h4>
-
-<p>or</p>
 
 <h4>
 <a name="latest-stable-version" class="anchor" href="#latest-stable-version"><span class="octicon octicon-link"></span></a>Latest Stable Version</h4>
@@ -174,18 +212,36 @@
 <tbody>
 <tr>
 <td>Production</td>
-<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.8.2.min.js">angular-cache-0.8.2.min.js</a></td>
-<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.8.2.min.js">angular-cache-0.8.2.min.js</a></td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.9.0-SNAPSHOT.min.js">angular-cache-0.9.0-SNAPSHOT.min.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.9.0-SNAPSHOT.min.js">angular-cache-0.9.0-SNAPSHOT.min.js</a></td>
 <td>3.3 KB</td>
 </tr>
 <tr>
 <td>Development</td>
-<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.8.2.js">angular-cache-0.8.2.js</a></td>
-<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.8.2.js">angular-cache-0.8.2.js</a></td>
+<td><a href="https://drone.io/github.com/jmdobry/angular-cache/files/dist/angular-cache-0.9.0-SNAPSHOT.js">angular-cache-0.9.0-SNAPSHOT.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-0.9.0-SNAPSHOT.js">angular-cache-0.9.0-SNAPSHOT.js</a></td>
 <td>28.7 KB</td>
 </tr>
 </tbody>
-</table><p><a name="usage"></a></p>
+</table><p><a name="install"></a></p>
+
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<h4>
+<a name="install-with-bower" class="anchor" href="#install-with-bower"><span class="octicon octicon-link"></span></a>Install with bower</h4>
+
+<div class="highlight"><pre><span class="nx">bower</span> <span class="nx">install</span> <span class="nx">angular</span><span class="o">-</span><span class="nx">cache</span>
+</pre></div>
+
+<p>Include <code>src/angular-cache.js</code> on your web page after <code>angular.js</code>.</p>
+
+<h4>
+<a name="manual-install" class="anchor" href="#manual-install"><span class="octicon octicon-link"></span></a>Manual install</h4>
+
+<p>Get angular-cache from the <a href="#download">Download</a> section and include it on your web page after <code>angular.js</code>.</p>
+
+<p><a name="usage"></a></p>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -207,7 +263,7 @@
 <h4>
 <a name="load-angular-cache" class="anchor" href="#load-angular-cache"><span class="octicon octicon-link"></span></a>Load angular-cache</h4>
 
-<p>Make sure angular-cache is included on your web page after Angular.</p>
+<p>Make sure angular-cache is included on your web page after <code>angular.js</code>.</p>
 
 <div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'angular-cache'</span><span class="p">]);</span>
 </pre></div>
@@ -219,35 +275,33 @@
 <h4>
 <a name="create-a-cache" class="anchor" href="#create-a-cache"><span class="octicon octicon-link"></span></a>Create a cache</h4>
 
-<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$angularCacheFactory'</span><span class="p">,</span>
-    <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="c1">// create a cache with default settings</span>
-        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
+    <span class="c1">// create a cache with default settings</span>
+    <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
 
-        <span class="c1">// create an LRU cache with a capacity of 10</span>
-        <span class="kd">var</span> <span class="nx">myLRUCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myLRUCache'</span><span class="p">,</span> <span class="p">{</span>
-            <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span>
-        <span class="p">});</span>
+    <span class="c1">// create an LRU cache with a capacity of 10</span>
+    <span class="kd">var</span> <span class="nx">myLRUCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myLRUCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span>
+    <span class="p">});</span>
 
-        <span class="c1">// create a cache whose items have a maximum lifetime of 10 minutes</span>
-        <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
-            <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span>
-        <span class="p">});</span>
+    <span class="c1">// create a cache whose items have a maximum lifetime of 10 minutes</span>
+    <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span>
+    <span class="p">});</span>
 
-        <span class="c1">// create a cache that will clear itself every 10 minutes</span>
-        <span class="kd">var</span> <span class="nx">myIntervalCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myIntervalCache'</span><span class="p">,</span> <span class="p">{</span>
-            <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
-        <span class="p">});</span>
+    <span class="c1">// create a cache that will clear itself every 10 minutes</span>
+    <span class="kd">var</span> <span class="nx">myIntervalCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myIntervalCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
+    <span class="p">});</span>
 
-        <span class="c1">// create an cache with all options</span>
-        <span class="kd">var</span> <span class="nx">myAwesomeCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myAwesomeCache'</span><span class="p">,</span> <span class="p">{</span>
-            <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
-            <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
-            <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
-        <span class="p">});</span>
-    <span class="p">}</span>
-<span class="p">]);</span>
+    <span class="c1">// create an cache with all options</span>
+    <span class="kd">var</span> <span class="nx">myAwesomeCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myAwesomeCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">capacity</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
+        <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">600000</span>
+    <span class="p">});</span>
+<span class="p">});</span>
 </pre></div>
 
 <p>See <a href="http://jmdobry.github.io/angular-cache/docs/angularCacheFactory.html">$angularCacheFactory</a></p>
@@ -257,38 +311,36 @@
 <h4>
 <a name="dynamically-configure-a-cache" class="anchor" href="#dynamically-configure-a-cache"><span class="octicon octicon-link"></span></a>Dynamically configure a cache</h4>
 
-<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$angularCacheFactory'</span><span class="p">,</span>
-    <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="c1">// create a cache with default settings</span>
-        <span class="kd">var</span> <span class="nx">cache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'cache'</span><span class="p">,</span> <span class="p">{</span>
-            <span class="nx">capacity</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
-            <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">30000</span>
-        <span class="p">});</span>
+    <span class="c1">// create a cache with default settings</span>
+    <span class="kd">var</span> <span class="nx">cache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'cache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">capacity</span><span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">30000</span>
+    <span class="p">});</span>
 
-        <span class="c1">// Add 50 items here, for example</span>
+    <span class="c1">// Add 50 items here, for example</span>
 
-        <span class="nx">cache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { ..., size: 50, capacity: 100, maxAge: 3000, ... }</span>
+    <span class="nx">cache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { ..., size: 50, capacity: 100, maxAge: 3000, ... }</span>
 
-        <span class="nx">cache</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">({</span>
-            <span class="nx">capacity</span><span class="o">:</span> <span class="mi">30</span>
-        <span class="p">});</span>
+    <span class="nx">cache</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">({</span>
+        <span class="nx">capacity</span><span class="o">:</span> <span class="mi">30</span>
+    <span class="p">});</span>
 
-        <span class="nx">cache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { ..., size: 30, capacity: 30, maxAge: 3000, ... }</span>
-        <span class="c1">// notice that only the 30 most recently added items remain in the cache because</span>
-        <span class="c1">// the capacity was reduced.</span>
+    <span class="nx">cache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { ..., size: 30, capacity: 30, maxAge: 3000, ... }</span>
+    <span class="c1">// notice that only the 30 most recently added items remain in the cache because</span>
+    <span class="c1">// the capacity was reduced.</span>
 
-        <span class="c1">// setting the second parameter to true will cause the cache's configuration to be</span>
-        <span class="c1">// reset to defaults before the configuration passed into setOptions() is applied to</span>
-        <span class="c1">// the cache</span>
-        <span class="nx">cache</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">({</span>
-            <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">5500</span>
-        <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="c1">// setting the second parameter to true will cause the cache's configuration to be</span>
+    <span class="c1">// reset to defaults before the configuration passed into setOptions() is applied to</span>
+    <span class="c1">// the cache</span>
+    <span class="nx">cache</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">({</span>
+        <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">5500</span>
+    <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
 
-        <span class="nx">cache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { ..., size: 30, cacheFlushInterval: 5500,</span>
-                      <span class="c1">//   capacity: 1.7976931348623157e+308, maxAge: null, ... }</span>
-    <span class="p">}</span>
-<span class="p">]);</span>
+    <span class="nx">cache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { ..., size: 30, cacheFlushInterval: 5500,</span>
+                  <span class="c1">//   capacity: 1.7976931348623157e+308, maxAge: null, ... }</span>
+<span class="p">});</span>
 </pre></div>
 
 <p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#setOptions">AngularCache#setOptions</a></p>
@@ -298,12 +350,10 @@
 <h4>
 <a name="retrieve-a-cache" class="anchor" href="#retrieve-a-cache"><span class="octicon octicon-link"></span></a>Retrieve a cache</h4>
 
-<div class="highlight"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'myApp'</span><span class="p">).</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myOtherService'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$angularCacheFactory'</span><span class="p">,</span>
-    <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'myOtherService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$angularCacheFactory</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">]);</span>
+    <span class="kd">var</span> <span class="nx">myCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'myCache'</span><span class="p">);</span>
+<span class="p">});</span>
 </pre></div>
 
 <p>See <a href="http://jmdobry.github.io/angular-cache/docs/angularCacheFactory.html#get">$angularCacheFactory#get</a></p>
@@ -422,6 +472,70 @@
 
 <ul>
 <li>Yay!</li>
+</ul><p><a name="changelog"></a></p>
+
+<h2>
+<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
+
+<h5>
+<a name="090---03-august-2013" class="anchor" href="#090---03-august-2013"><span class="octicon octicon-link"></span></a>0.9.0 - 03 August 2013</h5>
+
+<ul>
+<li>Added a changelog #13</li>
+<li>Added documentation for installing with bower</li>
+<li>Added ability to set option <code>aggressiveDelete</code> when creating cache and when adding items</li>
+<li>Cleaned up README.md</li>
+<li>Switched the demo to use Bootstrap 3</li>
+</ul><h5>
+<a name="082---09-july-2013" class="anchor" href="#082---09-july-2013"><span class="octicon octicon-link"></span></a>0.8.2 - 09 July 2013</h5>
+
+<ul>
+<li>Added CONTRIBUTING.md #22</li>
+<li>Cleaned up meta data in bower.json and package.json</li>
+</ul><h5>
+<a name="081---09-july-2013" class="anchor" href="#081---09-july-2013"><span class="octicon octicon-link"></span></a>0.8.1 - 09 July 2013</h5>
+
+<ul>
+<li>Added .jshintrc</li>
+<li>Cleaned up the docs a bit</li>
+<li>
+<code>bower.json</code> now uses <code>src/angular-cache.js</code> instead of the versioned output files #21</li>
+<li>From now on the tags for the project will be named using <a href="http://semver.org/">semver</a>
+</li>
+</ul><h5>
+<a name="080---08-july-2013" class="anchor" href="#080---08-july-2013"><span class="octicon octicon-link"></span></a>0.8.0 - 08 July 2013</h5>
+
+<ul>
+<li>Added <code>AngularCache.setOptions()</code>, the ability to dynamically change the configuration of a cache #20</li>
+<li>Added <code>AngularCache.keys()</code>, which returns an array of the keys in a cache #19</li>
+<li>Added <code>AngularCache.keySet()</code>, which returns a hash of the keys in a cache #19</li>
+</ul><h5>
+<a name="072---june-2013" class="anchor" href="#072---june-2013"><span class="octicon octicon-link"></span></a>0.7.2 - June 2013</h5>
+
+<ul>
+<li>Added <code>angular-cache</code> to bower registry #7</li>
+<li>Created a working demo #9 #17</li>
+<li>Fixed the size not being reset to 0 when the cache clears itself #14 #16</li>
+<li>Added <code>$angularCacheFactory.keys()</code>, which returns an array of the keys (the names of the caches) in $angularCacheFactory #18</li>
+<li>Added <code>$angularCacheFactory.keySet()</code>, which returns a hash of the keys (the names of the caches) in $angularCacheFactory #18</li>
+</ul><h5>
+<a name="061---june-2013" class="anchor" href="#061---june-2013"><span class="octicon octicon-link"></span></a>0.6.1 - June 2013</h5>
+
+<ul>
+<li>Got the project building on TravisCI</li>
+<li>Renamed the project to <code>angular-cache</code> #5</li>
+</ul><h5>
+<a name="050---june-2013" class="anchor" href="#050---june-2013"><span class="octicon octicon-link"></span></a>0.5.0 - June 2013</h5>
+
+<ul>
+<li>Added a roadmap to README.md #4</li>
+<li>Clarify usage documentation #3</li>
+<li>Wrote unit tests #2</li>
+</ul><h5>
+<a name="040---may-2013" class="anchor" href="#040---may-2013"><span class="octicon octicon-link"></span></a>0.4.0 - May 2013</h5>
+
+<ul>
+<li>Added Grunt build tasks #1</li>
 </ul><p><a name="contributing"></a></p>
 
 <h2>
