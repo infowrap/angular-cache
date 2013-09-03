@@ -39,7 +39,7 @@
         </div>
 
         <h1>
-<a name="angular-cache-100" class="anchor" href="#angular-cache-100"><span class="octicon octicon-link"></span></a>angular-cache (1.0.0)</h1>
+<a name="angular-cache-110" class="anchor" href="#angular-cache-110"><span class="octicon octicon-link"></span></a>angular-cache (1.1.0)</h1>
 
 <p>angular-cache is a caching system that improves upon the capabilities of the $cacheFactory provided by AngularJS. Check out the <a href="http://jmdobry.github.io/angular-cache/demo/">demo</a> for a quick introduction, or continue on down for more detailed information.</p>
 
@@ -75,7 +75,12 @@
         <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">90000</span><span class="p">,</span> <span class="c1">// Items added to this cache expire after 15 minutes</span>
         <span class="nx">aggressiveDelete</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Items will be actively deleted when they expire</span>
         <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">3600000</span><span class="p">,</span> <span class="c1">// This cache will clear itself every hour,</span>
-        <span class="nx">storageMode</span><span class="o">:</span> <span class="s1">'localStorage'</span> <span class="c1">// This cache will sync itself with localStorage</span>
+        <span class="nx">storageMode</span><span class="o">:</span> <span class="s1">'localStorage'</span> <span class="c1">// This cache will sync itself with localStorage,</span>
+        <span class="nx">onExpire</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// This callback is executed when the item specified by "key" expires.</span>
+            <span class="c1">// At this point you could retrieve a fresh value for "key"</span>
+            <span class="c1">// from the server and re-insert it into the cache.</span>
+        <span class="p">}</span>
      <span class="p">});</span>
 <span class="p">});</span>
 </pre></div>
@@ -153,6 +158,109 @@
 <div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cacheFlushInterval</span><span class="o">:</span> <span class="mi">57908</span> <span class="p">});</span>
 </pre></div>
 
+<h5>
+<a name="onexpire" class="anchor" href="#onexpire"><span class="octicon octicon-link"></span></a><code>onExpire</code>
+</h5>
+
+<p>A callback function to be executed when an item expires.</p>
+
+<h6>
+<a name="using-onexpire-in-passive-delete-mode" class="anchor" href="#using-onexpire-in-passive-delete-mode"><span class="octicon octicon-link"></span></a>Using 'onExpire' in passive delete mode</h6>
+
+<p>In passive delete mode the cache doesn't know if an item has expired until the item is requested, at which point the cache checks to see if the item has expired. If the item has expired then it is immediately removed from the cache, resulting in a "miss".</p>
+
+<p>If you specify a global "onExpire" callback function, the cache will execute this function when it is discovered the item has expired, passing to the callback the key and value of the expired item.</p>
+
+<p>When you actually request the expired item via <code>myCache.get('someKey')</code> you can also pass a second argument to <code>get()</code> specifying a callback that your cache's "onExpire" callback can execute when it finishes. For example:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">newCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="c1">// Items expire after 1 second, but we don't know it until the item is requested</span>
+    <span class="nx">onExpire</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// "onExpire" callback for the cache.</span>
+        <span class="c1">// The third optional parameter "done", is the second argument passed to `get()` as described above</span>
+
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span> <span class="o">+</span> <span class="s1">' expired!'</span><span class="p">);</span>
+        <span class="c1">// Retrieve fresh value for "key" from server, of course you'll need to figure out</span>
+        <span class="c1">// what the url is if key != url</span>
+        <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">).</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">).</span><span class="nx">put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+            <span class="nx">done</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span> <span class="c1">// Execute the "done" callback specified in the `get()` call</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">newCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'denver'</span><span class="p">,</span> <span class="s1">'broncos'</span><span class="p">);</span>
+
+<span class="c1">// wait a few seconds</span>
+
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">newCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'denver'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// here value is defined, because we retrieved it from the server</span>
+<span class="p">});</span>
+<span class="c1">// here value is undefined because the item with</span>
+<span class="c1">// the key "denver" has expired and was deleted from the</span>
+<span class="c1">// cache when we requested it. The callback passed to</span>
+<span class="c1">// "get()" will receive the new value for 'denver' which</span>
+<span class="c1">// will be retrieved from the server. This callback</span>
+<span class="c1">// is the "done" callback executed by the "onExpire"</span>
+<span class="c1">// callback specified when we created the cache.</span>
+</pre></div>
+
+<p>Another usage:</p>
+
+<div class="highlight"><pre><span class="c1">// We don't specify an "onExpire" callback for this cache</span>
+<span class="kd">var</span> <span class="nx">newCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="c1">// Items expire after 1 second, but we don't know it until the item is requested</span>
+<span class="p">});</span>
+
+<span class="nx">newCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'denver'</span><span class="p">,</span> <span class="s1">'broncos'</span><span class="p">);</span>
+
+<span class="c1">// wait a few seconds</span>
+
+<span class="c1">// In this cache the callback is immediately executed when</span>
+<span class="c1">// the cache discovers that 'denver' has expired, and the</span>
+<span class="c1">// callback is passed the key and value of the expired item.</span>
+<span class="c1">// Here you could retrieve a new value for 'denver' from</span>
+<span class="c1">// the server or decide to keep the old value and re-insert</span>
+<span class="c1">// it into the cache. Specifying an "onExpire" callback for</span>
+<span class="c1">// the cache is a good way to stay DRY.</span>
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">newCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'denver'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isGoodThisYear</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">newCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">).</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">newCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h6>
+<a name="using-onexpire-in-aggressive-delete-mode" class="anchor" href="#using-onexpire-in-aggressive-delete-mode"><span class="octicon octicon-link"></span></a>Using 'onExpire' in aggressive delete mode</h6>
+
+<p>In aggressive delete mode you can't pass a second parameter to <code>get()</code> because your "onExpire" callback for the cache has already been executed for expired items.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">newCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="c1">// Items expire after 1 second and are immediately deleted</span>
+    <span class="nx">onExpire</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// "onExpire" callback for the cache.</span>
+        <span class="c1">// The third optional parameter "done", is the second argument passed to `get()` as described above</span>
+
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span> <span class="o">+</span> <span class="s1">' expired!'</span><span class="p">);</span>
+        <span class="c1">// Retrieve fresh value for "key" from server, of course you'll need to figure out</span>
+        <span class="c1">// what the url is if key != url</span>
+        <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">).</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'newCache'</span><span class="p">).</span><span class="nx">put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">newCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s1">'denver'</span><span class="p">,</span> <span class="s1">'broncos'</span><span class="p">);</span>
+
+<span class="c1">// wait a few seconds, during which time the "onExpire" callback is automatically executed</span>
+
+<span class="nx">newCache</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'denver'</span><span class="p">);</span> <span class="c1">// 'broncos' or whatever was returned by the server in the "onExpire" callback</span>
+</pre></div>
+
 <h4>
 <a name="methods" class="anchor" href="#methods"><span class="octicon octicon-link"></span></a>Methods</h4>
 
@@ -174,12 +282,12 @@
 <a name="keys" class="anchor" href="#keys"><span class="octicon octicon-link"></span></a><code>keys()</code>
 </h5>
 
-<p>Return an array of the keys associated with all current caches owned by $angularCacheFactory.</p>
+<p>Return an array of the keys associated with all current caches owned by $angularCacheFactory. See <a href="#get-info-about-a-cache">Get info about a cache</a>.</p>
 
 <div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">keys</span><span class="p">();</span>
 </pre></div>
 
-<p>Return an array of the keys associated with all current items in <code>someCache</code>.</p>
+<p>Return an array of the keys associated with all current items in <code>someCache</code>. See <a href="#get-info-about-a-cache">Get info about a cache</a>.</p>
 
 <div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someCache'</span><span class="p">).</span><span class="nx">keys</span><span class="p">();</span>
 </pre></div>
@@ -188,7 +296,7 @@
 <a name="setoptions" class="anchor" href="#setoptions"><span class="octicon octicon-link"></span></a><code>setOptions()</code>
 </h5>
 
-<p>Dynamically configure a cache.</p>
+<p>Dynamically configure a cache. See <a href="#dynamically-configure-a-cache">Dynamically configure a cache</a>.</p>
 
 <div class="highlight"><pre><span class="nx">$angularCacheFactory</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'someCache'</span><span class="p">).</span><span class="nx">setOptions</span><span class="p">({</span> <span class="nx">capacity</span><span class="o">:</span> <span class="mi">4500</span> <span class="p">});</span>
 </pre></div>
@@ -207,19 +315,19 @@
 </tr></thead>
 <tbody>
 <tr>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td><a href="https://github.com/jmdobry/angular-cache">master</a></td>
 <td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=master" alt="Build Status"></a></td>
 <td><a href="http://jmdobry.github.io/angular-cache/coverage/">Test Coverage</a></td>
 </tr>
 <tr>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td><a href="https://github.com/jmdobry/angular-cache/tree/develop">develop</a></td>
 <td><a href="https://travis-ci.org/jmdobry/angular-cache"><img src="https://travis-ci.org/jmdobry/angular-cache.png?branch=develop" alt="Build Status"></a></td>
 <td></td>
 </tr>
 <tr>
-<td>1.0.0</td>
+<td>1.1.0</td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache">all</a></td>
 <td><a href="https://drone.io/github.com/jmdobry/angular-cache/latest"><img src="https://drone.io/github.com/jmdobry/angular-cache/status.png" alt="Build Status"></a></td>
 <td></td>
@@ -242,12 +350,12 @@
 <tbody>
 <tr>
 <td>Production</td>
-<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-1.0.0.min.js">angular-cache-1.0.0.min.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-1.1.0.min.js">angular-cache-1.1.0.min.js</a></td>
 <td>6 KB</td>
 </tr>
 <tr>
 <td>Development</td>
-<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-1.0.0.js">angular-cache-1.0.0.js</a></td>
+<td><a href="https://raw.github.com/jmdobry/angular-cache/master/dist/angular-cache-1.1.0.js">angular-cache-1.1.0.js</a></td>
 <td>34 KB</td>
 </tr>
 </tbody>
@@ -279,7 +387,7 @@
 <li><a href="#create-a-cache">Create a cache</a></li>
 <li><a href="#using-angular-cache-with-localStorage">Using angular-cache with localStorage</a></li>
 <li><a href="#using-angular-cache-with-%24http">Using angular-cache with $http</a></li>
-<li><a href="#create-a-cache">Dynamically configure a cache</a></li>
+<li><a href="#dynamically-configure-a-cache">Dynamically configure a cache</a></li>
 <li><a href="#retrieve-a-cache">Retrieve a cache</a></li>
 <li><a href="#retrieve-items">Retrieve items</a></li>
 <li><a href="#add-items">Add items</a></li>
@@ -317,7 +425,29 @@
 
     <span class="c1">// create a cache whose items have a maximum lifetime of 10 minutes</span>
     <span class="kd">var</span> <span class="nx">myTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
-        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span>
+        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
+        <span class="nx">onExpire</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// This callback is executed during a call to "get()" and the requested item has expired.</span>
+            <span class="c1">// Receives the key and value of the expired item and a third argument, "done", which is</span>
+            <span class="c1">// a callback function passed as the second argument to "get()".</span>
+            <span class="c1">// See the "onExpire" configuration option discussed above.</span>
+
+            <span class="c1">// do something, like get a fresh value from the server and put it into the cache</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">done</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">done</span> <span class="o">===</span> <span class="s1">'function'</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">done</span><span class="p">();</span> <span class="c1">// pass whatever you want into done()</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="c1">// create a cache whose items have a maximum lifetime of 10 minutes which are immediately deleted upon expiration</span>
+    <span class="kd">var</span> <span class="nx">myAggressiveTimeLimitedCache</span> <span class="o">=</span> <span class="nx">$angularCacheFactory</span><span class="p">(</span><span class="s1">'myAggressiveTimeLimitedCache'</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">maxAge</span><span class="o">:</span> <span class="mi">600000</span><span class="p">,</span>
+        <span class="nx">onExpire</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// This callback is executed right when items expire. Receives the key and value of expired items.</span>
+            <span class="c1">// See the "onExpire" configuration option discussed above.</span>
+
+            <span class="c1">// do something, like get a fresh value from the server and put it into the cache</span>
+        <span class="p">}</span>
     <span class="p">});</span>
 
     <span class="c1">// create a cache that will clear itself every 10 minutes</span>
@@ -707,7 +837,13 @@
 <h4>
 <a name="get-info-about-a-cache" class="anchor" href="#get-info-about-a-cache"><span class="octicon octicon-link"></span></a>Get info about a cache</h4>
 
-<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { id: 'myCache', size: 13 }</span>
+<div class="highlight"><pre><span class="nx">myCache</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"someValue"</span><span class="p">);</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">info</span><span class="p">();</span> <span class="c1">// { id: 'myCache', size: 1 }</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">keys</span><span class="p">();</span> <span class="c1">// ["1"]</span>
+
+<span class="nx">myCache</span><span class="p">.</span><span class="nx">keySet</span><span class="p">();</span> <span class="c1">// { "1": "1" }</span>
 </pre></div>
 
 <p>See <a href="http://jmdobry.github.io/angular-cache/docs/Cache.html#info">AngularCache#info</a></p>
@@ -722,6 +858,20 @@
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
 
 <h5>
+<a name="110---03-september-2013" class="anchor" href="#110---03-september-2013"><span class="octicon octicon-link"></span></a>1.1.0 - 03 September 2013</h5>
+
+<h6>
+<a name="backwards-compatible-api-changes" class="anchor" href="#backwards-compatible-api-changes"><span class="octicon octicon-link"></span></a>Backwards compatible API changes</h6>
+
+<ul>
+<li>Added onExpire callback hook #27</li>
+<li>Added <code>$angularCacheFactory.removeAll()</code> and <code>$angularCacheFactory.clearAll()</code> convenience methods #37, #38</li>
+</ul><h6>
+<a name="backwards-compatible-bug-fixes" class="anchor" href="#backwards-compatible-bug-fixes"><span class="octicon octicon-link"></span></a>Backwards compatible bug fixes</h6>
+
+<ul>
+<li>Fixed #36</li>
+</ul><h5>
 <a name="100---26-august-2013" class="anchor" href="#100---26-august-2013"><span class="octicon octicon-link"></span></a>1.0.0 - 26 August 2013</h5>
 
 <ul>
